@@ -1,0 +1,7 @@
+---
+# Сценарий 1: установка и настройка веб-сервера Nginx на целевых хостах группы NGINX.
+- name: Install and configure Nginx via role
+  hosts: NGINX
+  become: true
+  roles:
+    - nginx

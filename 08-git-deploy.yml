@@ -1,0 +1,36 @@
+---
+# Сценарий 8: установка git, клонирование репозитория и развёртывание в каталог на сервере.
+- name: Clone Git repository on target
+  hosts: servers
+  become: true
+  vars:
+    # Передайте при запуске: -e git_repo=https://github.com/octocat/Hello-World.git -e git_dest=/opt/app
+    git_repo: "https://github.com/octocat/Hello-World.git"
+    git_dest: /opt/hello-world
+    git_version: HEAD
+  tasks:
+    - name: Install git (Debian)
+      ansible.builtin.apt:
+        name: git
+        state: present
+        update_cache: true
+      when: ansible_os_family == 'Debian'
+
+    - name: Install git (RedHat)
+      ansible.builtin.yum:
+        name: git
+        state: present
+      when: ansible_os_family == 'RedHat'
+
+    - name: Ensure deployment directory parent exists
+      ansible.builtin.file:
+        path: "{{ git_dest | dirname }}"
+        state: directory
+        mode: "0755"
+
+    - name: Clone or update repository
+      ansible.builtin.git:
+        repo: "{{ git_repo }}"
+        dest: "{{ git_dest }}"
+        version: "{{ git_version }}"
+        force: true

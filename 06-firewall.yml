@@ -1,0 +1,54 @@
+---
+# Сценарий 6: настройка межсетевого экрана (ufw на Debian/Ubuntu, firewalld на RHEL).
+- name: Configure host firewall
+  hosts: servers
+  become: true
+  tasks:
+    # --- Debian family: UFW ---
+    - name: Install UFW
+      ansible.builtin.apt:
+        name: ufw
+        state: present
+      when: ansible_os_family == 'Debian'
+
+    - name: Allow SSH, HTTP, HTTPS (UFW)
+      community.general.ufw:
+        rule: allow
+        port: "{{ item }}"
+        proto: tcp
+      loop:
+        - "22"
+        - "80"
+        - "443"
+      when: ansible_os_family == 'Debian'
+
+    - name: Enable UFW
+      community.general.ufw:
+        state: enabled
+      when: ansible_os_family == 'Debian'
+
+    # --- RedHat family: firewalld (как в подсказке к заданию) ---
+    - name: Install firewalld
+      ansible.builtin.yum:
+        name: firewalld
+        state: present
+      when: ansible_os_family == 'RedHat'
+
+    - name: Start and enable firewalld
+      ansible.builtin.service:
+        name: firewalld
+        state: started
+        enabled: true
+      when: ansible_os_family == 'RedHat'
+
+    - name: Open SSH, HTTP, HTTPS in firewalld
+      ansible.posix.firewalld:
+        service: "{{ item }}"
+        permanent: true
+        state: enabled
+        immediate: true
+      loop:
+        - ssh
+        - http
+        - https
+      when: ansible_os_family == 'RedHat'

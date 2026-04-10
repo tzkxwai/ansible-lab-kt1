@@ -1,0 +1,42 @@
+---
+# Сценарий 7: установка и запуск PostgreSQL на целевом сервере (Debian/Ubuntu).
+- name: Install and start PostgreSQL
+  hosts: servers
+  become: true
+  vars:
+    postgresql_packages:
+      - postgresql
+      - postgresql-contrib
+  tasks:
+    - name: Install PostgreSQL packages (Debian)
+      ansible.builtin.apt:
+        name: "{{ postgresql_packages }}"
+        state: present
+        update_cache: true
+      when: ansible_os_family == 'Debian'
+
+    - name: Install PostgreSQL (RedHat)
+      ansible.builtin.yum:
+        name: postgresql-server
+        state: present
+      when: ansible_os_family == 'RedHat'
+
+    - name: Initialize PostgreSQL database (RedHat, if needed)
+      ansible.builtin.command: postgresql-setup --initdb
+      args:
+        creates: /var/lib/pgsql/data/PG_VERSION
+      when: ansible_os_family == 'RedHat'
+
+    - name: Enable and start PostgreSQL service (Debian)
+      ansible.builtin.service:
+        name: postgresql
+        state: started
+        enabled: true
+      when: ansible_os_family == 'Debian'
+
+    - name: Enable and start PostgreSQL service (RedHat)
+      ansible.builtin.service:
+        name: postgresql
+        state: started
+        enabled: true
+      when: ansible_os_family == 'RedHat'

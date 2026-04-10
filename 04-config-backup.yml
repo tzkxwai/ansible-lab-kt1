@@ -1,0 +1,25 @@
+---
+# Сценарий 4: резервное копирование выбранных конфигурационных файлов на целевом сервере.
+- name: Backup configuration files on remote host
+  hosts: servers
+  become: true
+  vars:
+    backup_root: /root/ansible_config_backups
+    # Список файлов для копирования в каталог резервных копий с меткой времени.
+    config_files_to_backup:
+      - /etc/hosts
+      - /etc/ssh/sshd_config
+  tasks:
+    - name: Ensure local backup directory exists on target
+      ansible.builtin.file:
+        path: "{{ backup_root }}"
+        state: directory
+        mode: "0700"
+
+    - name: Copy each config into backup directory with timestamp suffix
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: "{{ backup_root }}/{{ item | basename }}.{{ ansible_date_time.iso8601_basic_short }}"
+        remote_src: true
+        mode: preserve
+      loop: "{{ config_files_to_backup }}"

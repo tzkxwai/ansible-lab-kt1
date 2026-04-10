@@ -1,0 +1,30 @@
+---
+# Сценарий 9 (часть 1): правка строк в файле index.html модулем lineinfile.
+# Документация: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/lineinfile_module.html
+- name: Edit index.html with lineinfile
+  hosts: servers
+  become: true
+  vars:
+    web_root: /var/www/html
+    index_file: "{{ web_root }}/index.html"
+  tasks:
+    - name: Ensure web root exists
+      ansible.builtin.file:
+        path: "{{ web_root }}"
+        state: directory
+        mode: "0755"
+
+    - name: Create minimal index.html if missing
+      ansible.builtin.copy:
+        dest: "{{ index_file }}"
+        content: |
+          <html><head><title>Old title</title></head><body><h1>Hello</h1></body></html>
+        mode: "0644"
+        force: false
+
+    - name: Replace title line in index.html
+      ansible.builtin.lineinfile:
+        path: "{{ index_file }}"
+        regexp: '<title>.*</title>'
+        line: '<title>Managed by Ansible</title>'
+        backrefs: false

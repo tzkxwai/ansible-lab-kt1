@@ -1,0 +1,13 @@
+# Ansible
+*.retry
+.ansible/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# OS / editor
+Thumbs.db
+.DS_Store

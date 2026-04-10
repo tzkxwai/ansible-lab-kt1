@@ -1,0 +1,10 @@
+# Замените ansible_host / пользователя / ключ на свои значения (см. inventory/hosts.example).
+
+[NGINX]
+target ansible_host=10.0.2.101 ansible_user=vagrant ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key
+
+[servers:children]
+NGINX
+
+[servers:vars]
+# ansible_python_interpreter=/usr/bin/python3

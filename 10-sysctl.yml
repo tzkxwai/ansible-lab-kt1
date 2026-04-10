@@ -1,0 +1,21 @@
+---
+# Сценарий 9 (часть 2) / системные параметры: настройка sysctl на сервере.
+- name: Tune sysctl parameters
+  hosts: servers
+  become: true
+  tasks:
+    - name: Set vm.swappiness
+      ansible.posix.sysctl:
+        name: vm.swappiness
+        value: "10"
+        state: present
+        sysctl_set: true
+        reload: true
+
+    - name: Enable IPv4 forwarding (example lab parameter)
+      ansible.posix.sysctl:
+        name: net.ipv4.ip_forward
+        value: "0"
+        state: present
+        sysctl_set: true
+        reload: true

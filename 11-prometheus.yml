@@ -1,0 +1,19 @@
+---
+# Сценарий 10: установка и запуск Prometheus (пакет prometheus из apt на Debian/Ubuntu).
+- name: Install and start Prometheus
+  hosts: servers
+  become: true
+  tasks:
+    - name: Install Prometheus package
+      ansible.builtin.apt:
+        name: prometheus
+        state: present
+        update_cache: true
+      when: ansible_os_family == 'Debian'
+
+    - name: Enable and start Prometheus service
+      ansible.builtin.service:
+        name: prometheus
+        state: started
+        enabled: true
+      when: ansible_os_family == 'Debian'

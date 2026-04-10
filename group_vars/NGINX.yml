@@ -1,0 +1,4 @@
+---
+# Переменные для группы NGINX (веб-сервер).
+nginx_package: nginx
+nginx_service: nginx

@@ -1,0 +1,5 @@
+---
+# Установка: ansible-galaxy collection install -r collections/requirements.yml
+collections:
+  - name: community.general
+  - name: ansible.posix
