@@ -1,5 +1,4 @@
 ---
-# Сценарий 7: установка и запуск PostgreSQL на целевом сервере (Debian/Ubuntu).
 - name: Install and start PostgreSQL
   hosts: servers
   become: true

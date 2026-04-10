@@ -1,10 +1,8 @@
 ---
-# Сценарий 5: управление службами (запуск, остановка, перезапуск).
 - name: Manage systemd services on target
   hosts: servers
   become: true
   vars:
-    # Измените имя и состояние: started | stopped | restarted | reloaded
     demo_service_name: ssh
     demo_service_state: started
     demo_service_enabled: true

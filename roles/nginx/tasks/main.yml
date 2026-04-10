@@ -1,12 +1,10 @@
 ---
-# Обновление кэша пакетов перед установкой.
 - name: Update apt cache
   ansible.builtin.apt:
     update_cache: true
     cache_valid_time: 3600
   when: ansible_os_family == 'Debian'
 
-# Установка Nginx.
 - name: Install Nginx package
   ansible.builtin.apt:
     name: "{{ nginx_package }}"
@@ -19,7 +17,6 @@
     state: present
   when: ansible_os_family == 'RedHat'
 
-# Включение и запуск службы.
 - name: Enable and start Nginx
   ansible.builtin.service:
     name: "{{ nginx_service }}"

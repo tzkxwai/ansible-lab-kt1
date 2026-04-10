@@ -1,5 +1,4 @@
 ---
-# Сценарий 10: установка и запуск Prometheus (пакет prometheus из apt на Debian/Ubuntu).
 - name: Install and start Prometheus
   hosts: servers
   become: true

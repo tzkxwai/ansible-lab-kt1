@@ -1,6 +1,4 @@
 ---
-# Сценарий 9 (часть 1): правка строк в файле index.html модулем lineinfile.
-# Документация: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/lineinfile_module.html
 - name: Edit index.html with lineinfile
   hosts: servers
   become: true

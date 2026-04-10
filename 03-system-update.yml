@@ -1,24 +1,20 @@
 ---
-# Сценарий 3: обновление всех пакетов и перезагрузка хоста при необходимости.
 - name: Full system upgrade and reboot
   hosts: servers
   become: true
   tasks:
-    # Debian/Ubuntu: полное обновление.
     - name: Upgrade all packages (Debian)
       ansible.builtin.apt:
         upgrade: dist
         update_cache: true
       when: ansible_os_family == 'Debian'
 
-    # RHEL/CentOS/Alma.
     - name: Upgrade all packages (RedHat)
       ansible.builtin.yum:
         name: "*"
         state: latest
       when: ansible_os_family == 'RedHat'
 
-    # Перезагрузка только если пакетный менеджер пометил необходимость (Debian: reboot-required).
     - name: Check reboot-required marker (Debian)
       ansible.builtin.stat:
         path: /var/run/reboot-required

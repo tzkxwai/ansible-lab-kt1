@@ -1,6 +1,4 @@
 ---
-# Сценарий 2: создание пользователя newadmin с правами sudo (проверка: ssh newadmin@<host>).
-# Пароль задаётся в открытом виде в задании (123); в продакшене используйте vault и надёжные пароли.
 - name: Create administrative user newadmin
   hosts: servers
   become: true
@@ -8,7 +6,6 @@
     admin_user: newadmin
     admin_password_plain: "123"
   tasks:
-    # Хэш SHA-512 для модуля user (на контроллере нужен пакет passlib: pip install passlib).
     - name: Add user with sudo membership
       ansible.builtin.user:
         name: "{{ admin_user }}"

@@ -1,5 +1,4 @@
 ---
-# Перезапуск Nginx после изменения конфигурации.
 - name: Reload nginx
   ansible.builtin.service:
     name: "{{ nginx_service | default('nginx') }}"

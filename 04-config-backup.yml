@@ -1,11 +1,9 @@
 ---
-# Сценарий 4: резервное копирование выбранных конфигурационных файлов на целевом сервере.
 - name: Backup configuration files on remote host
   hosts: servers
   become: true
   vars:
     backup_root: /root/ansible_config_backups
-    # Список файлов для копирования в каталог резервных копий с меткой времени.
     config_files_to_backup:
       - /etc/hosts
       - /etc/ssh/sshd_config

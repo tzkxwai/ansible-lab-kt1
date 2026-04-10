@@ -1,11 +1,5 @@
-# Скопируйте в hosts и отредактируйте под свою среду:
-# copy inventory\hosts.example inventory\hosts
-
 [NGINX]
 target ansible_host=10.0.2.101 ansible_user=vagrant ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key
 
 [servers:children]
 NGINX
-
-[servers:vars]
-# ansible_ssh_pass=...   # если без ключа

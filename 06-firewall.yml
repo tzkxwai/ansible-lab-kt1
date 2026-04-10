@@ -1,10 +1,8 @@
 ---
-# Сценарий 6: настройка межсетевого экрана (ufw на Debian/Ubuntu, firewalld на RHEL).
 - name: Configure host firewall
   hosts: servers
   become: true
   tasks:
-    # --- Debian family: UFW ---
     - name: Install UFW
       ansible.builtin.apt:
         name: ufw
@@ -27,7 +25,6 @@
         state: enabled
       when: ansible_os_family == 'Debian'
 
-    # --- RedHat family: firewalld (как в подсказке к заданию) ---
     - name: Install firewalld
       ansible.builtin.yum:
         name: firewalld
